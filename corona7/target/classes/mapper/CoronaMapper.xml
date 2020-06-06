@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.corona7.dao.CoronaDao">
+
+
+   								
+	<!-- 환자 등록하기 -->
+	<insert id="insertcorona" parameterType="Corona">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select corona_seq.nextval from dual
+		</selectKey>
+		insert into corona values(#{idx}, #{latitude}, #{longitude}, #{info}, sysdate)
+	</insert>
+	
+	<!-- 환자 목록 가져오기 -->
+	<select id="getcorona" resultType="Corona">
+		select idx, latitude, longitude, info, indate from corona
+	</select>
+	
+	<!-- 최근 등록된 환자 목록 가져오기 -->
+	<select id="getrecentcorona" resultType="Corona">
+		select * from(select rownum rn, a.* from(select * FROM corona ORDER BY idx desc) a) where rn between 1 and 5
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
